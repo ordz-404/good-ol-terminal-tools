@@ -40,7 +40,6 @@ File - gott.sh
 
 * Added a switch `isempty` to ping the server for player count. 
 
-
 File - gott-setup.sh
 
 * function create_setup_file backup folder variable has been added and a future option to change this variable will be added into the setup menus.
