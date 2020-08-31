@@ -1,6 +1,6 @@
 # Good Ol' Terminal Tools (GoTT) BETA
 
-GoTT is a command line interface program that is used to manage your minecraft server. This tool is intentionally made in a "command line" style and is an ode to old-school computing before graphic user interfaces were designed in modern computing and is reminiscent of "MS-DOS". 
+GoTT is a command line interface minecraft server management tool. This tool is intentionally made in a "command line" style and is an ode to old-school computing before graphic user interfaces were designed in modern computing and is reminiscent of "MS-DOS". 
 
 Original Source code and credits: https://github.com/kompetenzbolzen/minecraft-server-tools by Jonas Gunz 
 
@@ -8,12 +8,12 @@ Original Source code and credits: https://github.com/kompetenzbolzen/minecraft-s
 
 * Allows administrators to resume a console "session" if disconnected from shell.
 
-* Check the operational status of a particular instance. 
+* Check the operational status of a particular minecraft instance. 
 
 * One command backup - Performs a full backup to a specified folder within the minecraft directory compressed in TAR  format.
 
 
-## Requirements
+## Requirements & Pre-requisites
 GoTT requires access to read the "latest.log" to function properly. This file is located in the "logs" directory by default. By default, minecraft servers have enabled logging by default. Should GoTT be unable to access the log, this utility will not be able to perform its intended functions.
 
 
