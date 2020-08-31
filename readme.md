@@ -1,5 +1,21 @@
-# Good Ol' Terminal Tools (GoTT)
+# Good Ol' Terminal Tools (GoTT) BETA
+
+GoTT is a command line interface program that is used to manage your minecraft server. This tool is intentionally made in a "command line" style and is an ode to old-school computing before graphic user interfaces were designed in modern computing and is reminiscent of "MS-DOS". 
+
 Original Source code and credits: https://github.com/kompetenzbolzen/minecraft-server-tools by Jonas Gunz 
+
+## Features
+
+* Allows administrators to resume a console "session" if disconnected from shell.
+
+* Check the operational status of a particular instance. 
+
+* One command backup - Performs a full backup to a specified folder within the minecraft directory compressed in TAR  format.
+
+
+## Requirements
+GoTT requires access to read the "latest.log" to function properly. This file is located in the "logs" directory by default. By default, minecraft servers have enabled logging by default. Should GoTT be unable to access the log, this utility will not be able to perform its intended functions.
+
 
 ## Platform Compatability
 Tested on Ubuntu 18.04
@@ -12,9 +28,9 @@ Please refer to https://github.com/ordz-404/MC-server-terminal-tools/blob/ordz-4
 
 Please refer to https://github.com/ordz-404/MC-server-terminal-tools/blob/ordz-404-patch-1/how-to-use.md on param usages. 
 
-## Patch Notes 1.02 - 08/24/2020
+## Patch Notes 2.01 - 09/1/2020
 
-File - Server.sh
+File - gott.sh
 
 * function players_online has been totally re-written to check_players. Function will obtain the player count from the minecraft server. A failsafe is also put in place. Should the server not respond within 3 attemps, the process will abort to prevent perpetual loop wait cycle. After obtaining the player count, function will return true / false. 
 
@@ -24,19 +40,10 @@ File - Server.sh
 
 * Added a switch `isempty` to ping the server for player count. 
 
-## Patch Notes 1.01 - 08/23/2020
 
-File - Server.sh
+File - gott-setup.sh
 
-* cd $(dirname $0) sets the current folder server.sh file resides in as the root folder. This enables the code to be executed outside the root residing folder, resolving the issue of the minecraft service not starting up.
-
-File - Serverconf.sh
-
-* The file has been tidied up for easier referencing. All main setup parameters have been separated under the `Server Config Params` section in the config file.
-
-File - minecraft.service
-
-* This file has been simplifed and modified to run with this current version (branch) of this code. The original file has been moved to the "old_source" sub directory.
+* function create_setup_file backup folder variable has been added and a future option to change this variable will be added into the setup menus.
 
 ## Disclaimer & Limited Warranty
 
