@@ -281,13 +281,13 @@ function create_backup_archive() {
 	# Current directory is hardcoded
 
 	#Directory is made incase it is missing.	
-	mkdir -p backups
+	mkdir -p $BACKUP_FOLDER
 
-	ARCHNAME="backups/$WORLD_NAME-backup_`date +%d-%m-%y-%T`.tar.gz"
+	ARCHNAME="$BACKUP_FOLDER/$WORLD_NAME-backup_`date +%d-%m-%y-%T`.tar.gz"
 	echo "Backup is in progress... This may take a while... please wait..."
 	
 	# TAR settings to exclude backup folder, so it doesn't back up itself adding file size.
-	tar --exclude=backups -czvf "$ARCHNAME" "$folderpath" 	
+	tar --exclude=$BACKUP_FOLDER -czvf "$ARCHNAME" "$folderpath" 	
 
 	echo "Zip processes ended"
 
@@ -348,6 +348,8 @@ function show_config() {
 	echo ""
 	
 	less -FX gott.conf
+	
+	echo ""
 
 }
 

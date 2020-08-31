@@ -1,7 +1,14 @@
-echo "Loading setup lib..."
+echo "Loading Setup lib..."
 
+instance_name=""
+instance_file_name=""
+jvm_args_xms=""
+jvm_args_xmx=""
+jar_args=""	
 
 function create_setup_file() {
+
+echo "Generating gott.conf..."
 
 	cat <<EOF > gott.conf
 # gott.conf 
@@ -14,7 +21,7 @@ JRE_JAVA="java"
 
 #Server Config Params
 JAR="$instance_file_name"
-JVM_ARGS="-Xms1024M -Xmx1024M" 
+JVM_ARGS="-Xms${jvm_args_xms}M -Xmx${jvm_args_xmx}M" 
 JAR_ARGS="$jar_args"
 WORLD_NAME="$instance_name"
 
@@ -34,20 +41,15 @@ EOF
 
 echo 'CUR_YEAR=`date +%Y`' >> gott.conf
 
-}
 
-function ls_bup() {
-	bup -d "mc-backups/${CUR_YEAR}" ls "mc-sad-squad/$1"
-}
 
+}
 
 # Note do not move this function above. 
-
 
 function config_setup() {
 
 	#Check for existing config file, If it exists, prompt over write or abort
-
 	#init_dialogues
 
 	if [ -f "gott.conf" ]
@@ -101,8 +103,27 @@ function config_setup() {
 		echo ""
 		read -p "Input Minecraft Instance Name :  " instance_name	
 		read -p "Input Minecraft JAR Filename (case-sensitive) :  " instance_file_name	
-		read -p "Input JVM Arguments : " jvm_args		
-		read -p "Input JAR Arguments : " jar_args
+		read -p "Input JVM Xms (MB) (default 1024M): " jvm_args_xms
+		read -p "Input JVM Xmx (MB) (default 1024M): " jvm_args_xmx		
+		read -p "Input JAR Arguments (default -nogui): " jar_args
+	
+		if [ $jvm_args_xms -gt 1 ] && [[ $jvm_args_xms != "" ]]; then
+			echo ""	
+		else	
+			jvm_args_xms="1024"
+		fi
+	
+		if [ $jvm_args_xmx -gt 1 ] && [[ $jvm_args_xmx != "" ]]; then
+			echo ""	
+		else	
+			jvm_args_xmx="1024"
+		fi
+	
+		if [[ $jar_args != "" ]]; then
+			echo ""	
+		else	
+			jar_args="-nogui"
+		fi	
 	
 		#$instnace_file_name=$instance_file_name | sed 's/ *$//g'
 	
@@ -120,7 +141,8 @@ function config_setup() {
 			echo ""
 			echo $instance_name
 			echo $instance_file_name
-			echo $jvm_args
+			echo $jvm_args_xms
+			echo $jvm_args_xmx
 			echo $jar_args	
 			echo ""
 	
@@ -202,8 +224,6 @@ function config_setup() {
 	
 		if [ -f "$instance_file_name" ]
 			then
-			echo "Server JAR file found..."
-			echo "Generating new config file..."
 			create_setup_file
 		else
 			echo "Server JAR file not found..."
