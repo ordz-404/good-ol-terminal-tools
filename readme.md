@@ -28,6 +28,29 @@ GoTT 3.0 comes with a newly built in user interface. Please see screenshot for f
 
 ![Image of Howtouse](https://github.com/ordz-404/good-ol-terminal-tools/blob/master/howtouse-small.png)
 
+## Patch Notes 3.01 - 09/1/2020
+
+GoTT is now moving to beta version 3.0
+
+* Gott has a major menu overhaul. Please refer to the how to section on how to navigate through the new interface.
+
+* Gott automatically runs setup dialogue if no existing configuration is detected. 
+
+File - gott.sh
+
+* server backup function has now been streamlined through the interface. The user will be prompt with a dialogue menu  to run a "forced" backup if GoTT detects players on the server.
+
+File - gott-setup.sh
+
+* UX functions have now been moved to gott-ux.sh 
+
+File - gott-ux.sh
+
+* UX or user-interface functions will now be house in this .sh file as an include lib in main gott execuatble.
+
+* A spanking new splash page for GoTT's main menu. Future stream lines will be made should funtionality expand.
+
+
 ## Patch Notes 2.01 - 09/1/2020
 
 File - gott.sh
