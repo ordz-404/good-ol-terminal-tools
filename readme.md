@@ -22,11 +22,11 @@ Tested on Ubuntu 18.04
 
 Platform: AWS
 
-## Setup & How to use
+## How to use
 
-Please refer to https://github.com/ordz-404/MC-server-terminal-tools/blob/ordz-404-patch-1/how-to-setup.md for how to set up.
+GoTT 3.0 comes with a newly built in user interface. Please see screenshot for further instructions. 
 
-![Image of Howtouse](https://github.com/ordz-404/good-ol-terminal-tools/blob/master/howtouse.png)
+![Image of Howtouse](https://github.com/ordz-404/good-ol-terminal-tools/blob/master/howtouse-small.png)
 
 ## Patch Notes 2.01 - 09/1/2020
 
