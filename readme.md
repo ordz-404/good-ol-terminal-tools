@@ -26,7 +26,7 @@ Platform: AWS
 
 Please refer to https://github.com/ordz-404/MC-server-terminal-tools/blob/ordz-404-patch-1/how-to-setup.md for how to set up.
 
-Please refer to https://github.com/ordz-404/MC-server-terminal-tools/blob/ordz-404-patch-1/how-to-use.md on param usages. 
+![Image of Howtouse](https://github.com/ordz-404/good-ol-terminal-tools/blob/master/howtouse.png)
 
 ## Patch Notes 2.01 - 09/1/2020
 
