@@ -4,7 +4,7 @@ GoTT is a command line interface minecraft server management tool. This tool is 
 
 Special thanks and credits to Jonas Gunz for the original Source code https://github.com/kompetenzbolzen/minecraft-server-tools   
 
-## Features
+## Core Features
 
 * Intuitively runs setup and configuration dialogues on "first run"
 
@@ -34,6 +34,8 @@ Platform: AWS
 ## How to use
 
 GoTT 3.0 comes with a newly built in user interface. Please see screenshot for further instructions. 
+
+`To start GoTT, run the commant 'sudo ./gott.sh' to initialise the tool`
 
 ![Image of Howtouse](https://github.com/ordz-404/good-ol-terminal-tools/blob/master/howtouse-small.png)
 
