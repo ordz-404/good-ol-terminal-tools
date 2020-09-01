@@ -16,7 +16,14 @@ Special thanks and credits to Jonas Gunz for the original Source code https://gi
 
 
 ## Requirements & Pre-requisites
-GoTT requires access to read the "latest.log" to function properly. This file is located in the "logs" directory by default. By default, minecraft servers have enabled logging by default. Should GoTT be unable to access the log, this utility will not be able to perform its intended functions.
+
+GoTT requires access to read the "latest.log" to function properly. This file is located in the "logs" directory by default. By default, minecraft servers have enabled logging by default. Should GoTT be unable to access the log, this utility will not be able to perform its intended functions. It is a requirement that an administrator account is used to run GoTT, with read/write/execute privileges within minecraft and it's sub-folders.
+
+* Root, Admin or Sudo access.
+
+* Access to minecraft's server logs. Please ensure that your server is actively logging server activity into the "latest.logs" file. 
+
+* Some basic knowledge for terminal/shell usage.
 
 
 ## Platform Compatability
@@ -30,7 +37,7 @@ GoTT 3.0 comes with a newly built in user interface. Please see screenshot for f
 
 ![Image of Howtouse](https://github.com/ordz-404/good-ol-terminal-tools/blob/master/howtouse-small.png)
 
-## Patch Notes 3.01 - 09/1/2020
+## Patch Notes v3.01 - 09/1/2020
 
 GoTT is now moving to beta version 3.0
 
@@ -53,7 +60,7 @@ File - gott-ux.sh
 * A spanking new splash page for GoTT's main menu. Future stream lines will be made should funtionality expand.
 
 
-## Patch Notes 2.01 - 09/1/2020
+## Patch Notes v2.01 - 09/1/2020
 
 File - gott.sh
 
