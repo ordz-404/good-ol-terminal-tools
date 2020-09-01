@@ -4,20 +4,56 @@ cd $(dirname $0)
 
 temp=$( realpath "$0"  ) && folderpath=$(dirname "$temp")
 
+clear
+
 echo "Initialising...GOTT from " $folderpath
+echo ""
 echo "Loading Libraries..."
 
-. gott-setup.sh
+#New libraries to go below here
 
-#Calls function to check existing config file.
+. gott-setup.sh
+. gott-ux.sh
+
+echo "Libraries initialisation successful."
+echo ""
+
+sleep 1
+
+#Check for existing config file.
+
+echo "Scanning for existing GoTT configuration..."
+echo ""
+
 if [ -e "gott.conf" ]
 	then
-		echo "Current config file found..."
+		
 		source "gott.conf"
+		echo "Configuration file loaded successfully."
+		echo ""
+		
+		sleep 1
+		
 	else
-		echo "Please run setup to create a new configuration"
+		#Runs the setup configurator dialog.
+		init_setup_dialog
+		
+		#exit 1
+fi
+
+#Check for existing log file
+echo "Checking for existing server log file in" $LOGFILE "..."
+
+if [ -r $LOGFILE ]
+	then
+		echo "Minecraft server log file located... "
+		#echo ""
+		
+	else
+		echo "Gott requires access to latest.log, please check that file exists in configuration path."
 		exit 1
 fi
+
 
 function backup_hook_example {
 	bup -d $CUR_BACK_DIR ls -l $BACKUP_NAME/latest/var/minecraft
@@ -30,9 +66,15 @@ function send_cmd () {
 
 function assert_running() {
 	if server_running; then
-		echo "It seems a server is already running. If this is not the case,\
-			manually attach to the running screen and close it."
-		exit 1
+		echo ""
+		echo "An active Minecraft server instance has been detected." 
+		echo "Please use option (3) if you wish to access the server console."
+		
+		#Return to selection menu
+		return_to_menu
+		
+		
+		
 	fi
 }
 
@@ -84,6 +126,9 @@ function server_stop() {
 
 function server_attach() {
 	assert_not_running
+	
+	echo "Now attempting to resume existing session..."
+	sleep 1
 	tmux -S $TMUX_SOCKET attach -t $TMUX_WINDOW
 	exit
 }
@@ -357,6 +402,128 @@ function ls_bup() {
 	bup -d "mc-backups/${CUR_YEAR}" ls "mc-sad-squad/$1"
 }
 
+function create_selection_menu() {
+
+	failsafe=0
+	selection_menu="null"
+
+	while [[ $selection_menu != "0" ]]; do
+
+		#show_splash
+		
+		show_splash_special
+			
+		read -p "‖        What is your input option? " selection_menu_in
+									
+		selection_menu=${selection_menu_in^^}					
+					
+
+						
+		if [[ $selection_menu == "0" ]]; 
+			then
+			
+			# if selector detects 0, immediate quit. If not, run case values.
+			
+			echo ""
+			echo "Quitting GoTT."
+			exit 1
+
+			else
+
+			case $selection_menu in
+			
+				"1")
+				server_start
+				return_to_menu
+				;;
+				"2")
+				server_stop
+				;;
+				"3")
+				server_attach
+				;;
+				"4")
+				server_backup
+				;;
+				"status")
+				server_status
+				return_to_menu
+				;;		
+				"5")
+				check_players
+				return_to_menu
+				;;		
+				"fbackup")
+				server_backup "true"
+				;;
+				"7")
+				config_setup
+				;;
+				"6")
+				show_config
+				return_to_menu				
+				;;
+				"9")
+				show_splash_special
+				return_to_menu				
+				;;					
+				"ls")
+				ls_bup $2
+				;;
+				*)
+							
+				# After Passing through all arguments and selection is not any of the above.
+				
+				if [[ $selection_menu != "0" ]];
+					then
+					echo ""
+					echo "Invalid response, retrying..."
+					sleep 1
+					clear
+			
+					failsafe=$(( failsafe+1 ))						
+					
+				fi			
+				
+				if [ $failsafe -ge 3 ];
+				then
+				echo "Maximum amount of retries reached."
+				echo "Quitting GoTT."
+				exit 1
+					
+				fi									
+				;;
+			
+			esac
+
+			#Reset screen before returning
+			clear
+
+		fi					
+			
+	done
+		
+}
+
+function return_to_menu() {
+
+	
+			#Since this routine is only run once, you don't need to re-init this sequence.
+			returnto_in="null"
+			returnto="null"
+			
+			while [[ $returnto != "Y" ]]; do
+			
+				read -p "Press any key, and hit enter to return to main menu." returnto_in
+									
+				returnto="Y"			
+				clear
+			
+			done
+				
+	create_selection_menu
+
+}
 
 
 case $1 in
@@ -391,6 +558,7 @@ case $1 in
 		ls_bup $2
 		;;
 	*)
-		echo "Usage: $0 start|stop|attach|status|backup|isempty"
+		create_selection_menu
+		#echo "Usage: $0 start|stop|attach|status|backup|isempty"
 		;;
 esac

@@ -6,6 +6,9 @@ jvm_args_xms=""
 jvm_args_xmx=""
 jar_args=""	
 
+#Please do NOT modify this unless you really know what you're doing with the config file. 
+#Failure to compile the setup file correctly means GoTT will not function! 
+
 function create_setup_file() {
 
 echo "Generating gott.conf..."
@@ -49,6 +52,8 @@ echo 'CUR_YEAR=`date +%Y`' >> gott.conf
 
 function config_setup() {
 
+	#For line space
+	echo ""
 	#Check for existing config file, If it exists, prompt over write or abort
 	#init_dialogues
 
@@ -107,16 +112,22 @@ function config_setup() {
 		read -p "Input JVM Xmx (MB) (default 1024M): " jvm_args_xmx		
 		read -p "Input JAR Arguments (default -nogui): " jar_args
 	
-		if [ $jvm_args_xms -gt 1 ] && [[ $jvm_args_xms != "" ]]; then
+		if [[ $jvm_args_xms -gt 1 ]] && [[ $jvm_args_xms != "" ]]; then
 			echo ""	
 		else	
 			jvm_args_xms="1024"
 		fi
 	
-		if [ $jvm_args_xmx -gt 1 ] && [[ $jvm_args_xmx != "" ]]; then
+		if [[ $jvm_args_xmx -gt 1 ]] && [[ $jvm_args_xmx != "" ]]; then
 			echo ""	
 		else	
 			jvm_args_xmx="1024"
+		fi
+	
+		if [[ $instance_name != "" ]]; then
+			echo ""	
+		else	
+			instance_name="GoTT-minecraft-svr"
 		fi
 	
 		if [[ $jar_args != "" ]]; then
@@ -124,6 +135,8 @@ function config_setup() {
 		else	
 			jar_args="-nogui"
 		fi	
+	
+	
 	
 		#$instnace_file_name=$instance_file_name | sed 's/ *$//g'
 	
@@ -139,11 +152,12 @@ function config_setup() {
 			#Display input variables
 			
 			echo ""
-			echo $instance_name
-			echo $instance_file_name
-			echo $jvm_args_xms
-			echo $jvm_args_xmx
-			echo $jar_args	
+			echo "## Server Configuration Variables ##"
+			echo "Minecraft Instance name:" $instance_name
+			echo "Server executable file:" $instance_file_name
+			echo "XMS:" $jvm_args_xms
+			echo "XMX:" $jvm_args_xmx
+			echo "Java arguments:" $jar_args	
 			echo ""
 	
 				read -p "Is the configuration above correct (Y/N):  "  confirm_in
@@ -227,7 +241,7 @@ function config_setup() {
 			create_setup_file
 		else
 			echo "Server JAR file not found..."
-			echo "setting seqfail=1"
+			#echo "setting seqfail=1"
 			seqfail=1	
 		fi
 		
@@ -289,3 +303,47 @@ function config_setup() {
 	done
 
 }
+
+function init_setup_dialog() {
+
+	failsafe=0
+	
+	overwrite_in="null"
+	overwrite="null"
+			
+	while [[ $overwrite != "Y" ]]; do
+			
+		read -p "Do you wish to run GoTT setup? (Y/N): " overwrite_in 
+									
+		overwrite=${overwrite_in^^}					
+									
+		if [[ $overwrite == "N" ]]; 
+			then
+			echo "Quitting Gott..."
+			exit 1
+
+			else
+					
+				if [[ $overwrite != "Y" ]];
+				then
+				echo "Invalid response, retrying..."
+				failsafe=$(( failsafe+1 ))						
+				fi
+					
+		fi
+				
+		if [ $failsafe -ge 3 ];
+			then
+			echo "Maximum amount of retries reached."
+			echo "Aborting setup..."
+			exit 1
+					
+		fi
+						
+	done
+	
+	# Y ends the loop and runs the config
+	config_setup
+
+}
+
