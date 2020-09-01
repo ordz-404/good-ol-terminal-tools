@@ -2,15 +2,17 @@
 
 GoTT is a command line interface minecraft server management tool. This tool is intentionally made in a "command line" style and is an ode to old-school computing before graphic user interfaces were designed in modern computing and is reminiscent of "MS-DOS". 
 
-Original Source code and credits: https://github.com/kompetenzbolzen/minecraft-server-tools by Jonas Gunz 
+Special thanks and credits to Jonas Gunz for the original Source code https://github.com/kompetenzbolzen/minecraft-server-tools   
 
 ## Features
 
-* Allows administrators to resume a console "session" if disconnected from shell.
+* Intuitively runs setup and configuration dialogues on "first run"
+
+* Resumable Minecraft console session. Disconnect and reconnect to running instance anytime. 
 
 * Check the operational status of a particular minecraft instance. 
 
-* One command backup - Performs a full backup to a specified folder within the minecraft directory compressed in TAR  format.
+* Intelligent Backup - Performs a full backup to a specified folder within the minecraft directory compressed in TAR format, with "forced" mode to perform backup even if server isn't empty.
 
 
 ## Requirements & Pre-requisites
