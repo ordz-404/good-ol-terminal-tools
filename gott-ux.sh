@@ -16,6 +16,36 @@ EOF
 
 }
 
+function get_gott_version() {
+
+	gott_version="null"
+	gott_version=`cat gott.ver`
+	
+}
+
+function print_gott_version() {
+
+get_gott_version
+
+max_char=80
+version_line='‖                     "Good Ol Terminal Tools"'	
+version_line+=" $gott_version"
+
+char_count=$(printf '%s\n' "$version_line" | wc -c)
+	
+diff_count=`expr $max_char - $char_count + 1`
+
+for (( c=0; c<=$diff_count; c++ ))
+do  
+   version_line+=' '
+done
+
+version_line+='‖'
+
+printf '%s\n' "$version_line"
+
+}
+
 function print_name_date() {
 
 max_char=80
@@ -37,6 +67,35 @@ printf '%s\n' "$welcome_line"
 	
 } 
 
+function print_server_status() {
+
+max_char=80
+spacer='     '
+
+	if server_running
+	then
+		echo_line="‖ ${spacer} GoTT Minecraft server status : \e[1;32mOnline\e[0m"
+	else
+		echo_line="‖ ${spacer} GoTT Minecraft server status : \e[1;34mOffline\e[0m"
+	fi
+
+	echo_line2=$(printf '%b' "$echo_line")
+
+	char_count=$(printf '%s\n' "$echo_line2" | wc -c)	
+	diff_count=`expr $max_char - $char_count + 12`
+
+	#echo $char_count and $diff_count 
+
+	for (( c=0; c<=$diff_count; c++ ))
+	do  
+	echo_line2+=' '
+	done
+
+	echo_line2+='‖'
+	printf '%s\n' "$echo_line2"
+
+}
+
 function show_splash_special() {
 
 echo ""
@@ -44,11 +103,9 @@ echo ""
 cat <<"EOF" | sed  's/\n/foo\n/' 
 ................................................................................
 ‖                                                                              ‖
-‖                                                                              ‖
 EOF
 print_name_date
 cat <<"EOF" | sed  's/\n/foo\n/'
-‖                                                                              ‖
 ‖                                                                              ‖
 ‖                  .g8"""bgd             7MMMMMM9´`7MMMMMM9´                   ‖
 ‖                .dP´     `M                MM        MM                       ‖
@@ -58,9 +115,15 @@ cat <<"EOF" | sed  's/\n/foo\n/'
 ‖                `Mb      MM   YA.   ,A9    MM        MM                       ‖
 ‖                  `"bmmmdPY    `Ybmd9´   .JMML.    .JMML.                     ‖
 ‖                                                                              ‖
-‖                        "Good Ol' Terminal Tools"                             ‖
+EOF
+print_gott_version
+cat <<"EOF" | sed  's/\n/foo\n/'
 ‖                                                                              ‖
-‖        Select an action to perform from the list below.                      ‖
+EOF
+print_server_status
+cat <<"EOF" | sed  's/\n/foo\n/'
+‖                                                                              ‖
+‖       Select an action to perform from the list below.                       ‖
 ‖                                                                              ‖
 ‖     ╏ (1)Start Server - Starts a new GoTT Minecraft server instance.         ‖
 ‖     ╏ (2)Stop Server - Stops the current active server instance.             ‖
@@ -69,7 +132,6 @@ cat <<"EOF" | sed  's/\n/foo\n/'
 ‖     ╏ (5)Show Players - Checks the server for number of online players.      ‖
 ‖     ╏ (6)Show Config - Displays current GoTT config file information.        ‖
 ‖     ╏ (7)Setup GoTT - Reconfigures the GoTT settings in the config file.     ‖
-‖     ╏ (8)Show Version - Displays current version information of GoTT.        ‖
 ‖     ╏ (0)Quit GoTT - Quit GoTT and return to shell.                          ‖
 ‖                                                                              ‖
 EOF
