@@ -37,7 +37,7 @@ GoTT 3.0 comes with a newly built in user interface. Please see screenshot for f
 
 `To start GoTT, run the commant 'sudo ./gott.sh' to initialise the tool`
 
-![Image of Howtouse](https://github.com/ordz-404/good-ol-terminal-tools/blob/master/howtouse-small.png)
+![Image of Howtouse](https://github.com/ordz-404/good-ol-terminal-tools/blob/master/images/howtouse-small.png)
 
 ## Patch Notes v3.1 - 09/4/2020
 
