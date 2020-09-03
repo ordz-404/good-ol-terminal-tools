@@ -1,6 +1,6 @@
 # Good Ol' Terminal Tools (GoTT) BETA
 
-GoTT is a command line interface minecraft server management tool. This tool is intentionally made in a "command line" style and is an ode to old-school computing before graphic user interfaces were designed in modern computing and is reminiscent of "MS-DOS". 
+GoTT is a command line interface minecraft server management tool. This tool is intentionally made in a "command line" style and is an ode to old-school computing before graphic user interfaces were designed in modern computing and is reminiscent of "MS-DOS". Note that GoTT is in active development and there will be minor changes daily until a release version has been published. 
 
 Special thanks and credits to Jonas Gunz for the original Source code https://github.com/kompetenzbolzen/minecraft-server-tools   
 
@@ -38,6 +38,24 @@ GoTT 3.0 comes with a newly built in user interface. Please see screenshot for f
 `To start GoTT, run the commant 'sudo ./gott.sh' to initialise the tool`
 
 ![Image of Howtouse](https://github.com/ordz-404/good-ol-terminal-tools/blob/master/howtouse-small.png)
+
+## Patch Notes v3.02 - 09/3/2020
+
+GoTT is now moving to beta version 3.0
+
+* Starting a server will now prompt new dialogue box to enter console session. This makes it more intuitive when especially if you're booting up a server instance.
+
+* Stopping a server will now prompt new dialogue box to confirm action. This prevents accidental mishaps from happening.
+
+File - gott.sh
+
+* configuration file will be loaded before libraries are loaded. This ensures all variable settings from the config can be accessed by the libraries when initialising. 
+
+* Interface house keeping. Adding spaces between lines to make it more readable.
+
+File - gott-ux.sh
+
+* Interface now prints the accurate date. Why would you need it? Because GoTT is a fancy tool. 
 
 ## Patch Notes v3.01 - 09/1/2020
 
