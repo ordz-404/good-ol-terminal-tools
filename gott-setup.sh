@@ -39,6 +39,15 @@ BACKUP_NAME="\${WORLD_NAME}_backup"
 LOGFILE="logs/latest.log"
 USE_BUP="NO"
 
+#Logger Settings
+LOG_ENABLE="TRUE"
+LOG_PATH=.
+LOG_FILE=gott.log
+LOG_LEVEL=1
+LOG_DATEFORMAT="%Y/%m/%d %H:%M:%S"
+LOG_MESSAGEFORMAT="%-19s - %-5s - %s\n"
+LOG_STDOUT=""
+
 #Constants
 EOF
 

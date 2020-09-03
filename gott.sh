@@ -8,17 +8,6 @@ clear
 
 echo "Initialising...GOTT from " $folderpath
 echo ""
-echo "Loading Libraries..."
-
-#New libraries to go below here
-
-. gott-setup.sh
-. gott-ux.sh
-
-echo "Libraries initialisation successful."
-echo ""
-
-sleep 1
 
 #Check for existing config file.
 
@@ -40,6 +29,23 @@ if [ -e "gott.conf" ]
 		
 		#exit 1
 fi
+
+echo "Loading Libraries..."
+
+#New libraries to go below here
+
+. gott-setup.sh
+. gott-ux.sh
+#. gott-logger.sh
+
+echo "Libraries initialisation successful."
+echo ""
+
+#logger_init
+
+sleep 1
+
+
 
 #Check for existing log file
 echo "Checking for existing server log file in" $LOGFILE "..."
@@ -99,6 +105,56 @@ function server_start() {
 	pid=`tmux -S $TMUX_SOCKET list-panes -t $TMUX_WINDOW -F "#{pane_pid}"`
 	echo $pid > $PIDFILE
 	echo Started with PID $pid
+	echo ""
+
+	failsafe=0
+	#Since this routine is only run once, you don't need to re-init this sequence.
+			
+	gotoconsole_in="null"
+	gotoconsole="null"
+			
+	while [[ $gotoconsole != "Y" ]]; do
+			
+		read -p "Do you wish to enter console mode for current Minecraft server? (Y/N): " gotoconsole_in 
+									
+		gotoconsole=${gotoconsole_in^^}					
+				
+		if [[ $gotoconsole == "Y" ]]; 
+			then
+			
+			#Access tmux
+			tmux -S $TMUX_SOCKET attach -t $TMUX_WINDOW
+			
+										
+		fi
+				
+		if [[ $gotoconsole == "N" ]]; 
+			then
+			echo "Returning to main menu..."
+			return_to_menu
+					
+			else
+					
+			if [[ $gotoconsole != "Y" ]];
+			then
+			echo "Invalid response, retrying..."
+			failsafe=$(( failsafe+1 ))						
+			fi
+					
+			fi
+				
+			if [ $failsafe -ge 3 ];
+			then
+			echo "Maximum amount of retries reached."
+			return_to_menu
+					
+					
+		fi
+				
+			
+	done
+	
+	sleep 1
 	exit
 }
 
@@ -107,21 +163,77 @@ function server_stop() {
 	#trap "exit 0" EXIT
 
 	assert_not_running
-	send_cmd "stop"
+	
+	failsafe=0
+	#Since this routine is only run once, you don't need to re-init this sequence.
+			
+	stopserver_in="null"
+	stopserver="null"
+			
+	while [[ $stopserver != "Y" ]]; do
+			
+		read -p "Do you wish to stop the current Minecraft server? (Y/N): " stopserver_in 
+									
+		stopserver=${stopserver_in^^}					
+				
+		if [[ $stopserver == "Y" ]]; 
+			then
+			
+			#start the stop sequence
+			
+			#Use Minecraft console command to broadcast backup shutdown.
+			send_cmd "say Gott will be shutting down server in ... 3"
+			sleep 1
+			send_cmd "say Gott will be shutting down server in ... 2"
+			sleep 1
+			send_cmd "say Gott will be shutting down server in ... 1"
+			sleep 1
+				
+			send_cmd "stop"
 
-	local RET=1
-	while [ ! $RET -eq 0 ]
-	do
-		sleep 1
-		ps -p $(cat $PIDFILE) > /dev/null
-		RET=$?
+			local RET=1
+				while [ ! $RET -eq 0 ]
+				do
+				sleep 1
+				ps -p $(cat $PIDFILE) > /dev/null
+				RET=$?
+			done
+
+			echo ""
+			echo "GoTT has stopped the Minecraft instance."
+
+			rm -f $PIDFILE
+
+			return_to_menu
+										
+		fi
+				
+		if [[ $stopserver == "N" ]]; 
+			then
+			echo "Aborting server shutdown, returning to main menu..."
+			return_to_menu
+					
+			else
+					
+			if [[ $stopserver != "Y" ]];
+			then
+			echo "Invalid response, retrying..."
+			failsafe=$(( failsafe+1 ))						
+			fi
+					
+			fi
+				
+			if [ $failsafe -ge 3 ];
+			then
+			echo "Maximum amount of retries reached."
+			return_to_menu
+					
+					
+		fi
+				
+			
 	done
-
-	echo "stopped the server"
-
-	rm -f $PIDFILE
-
-	exit
+	
 }
 
 function server_attach() {
@@ -200,7 +312,8 @@ function check_players() {
 
 function server_backup_safe() {
 	force=$1
-			
+	
+	echo ""
 	echo "Detected running server. Checking if players online..."
 	
 	# Call the function to check for players.
@@ -214,7 +327,54 @@ function server_backup_safe() {
 	
 		else
 	
-			echo "There are currently players on the server, backup will now abort." 
+			echo "GoTT has detected existing players on the server." 
+			echo ""
+			
+			failsafe=0
+			#Since this routine is only run once, you don't need to re-init this sequence.
+			overwrite_in="null"
+			overwrite="null"
+			
+			while [[ $overwrite != "Y" ]]; do
+			
+				read -p "Do you still wish to proceed with a FORCED backup? (Y/N): " overwrite_in 
+									
+				overwrite=${overwrite_in^^}					
+				
+				if [[ $overwrite == "Y" ]]; 
+					then
+					server_backup "true"
+					#reinitialise backup sequence
+										
+				fi
+				
+				if [[ $overwrite == "N" ]]; 
+					then
+					echo "Backup Aborting, returning to main menu..."
+					return_to_menu
+					
+					else
+					
+						if [[ $overwrite != "Y" ]];
+						then
+						echo "Invalid response, retrying..."
+						failsafe=$(( failsafe+1 ))						
+						fi
+					
+				fi
+				
+				if [ $failsafe -ge 3 ];
+					then
+					echo "Maximum amount of retries reached."
+					return_to_menu
+					
+					
+				fi
+				
+			
+			done
+			
+			
 			echo "To force a backup session, use instead fbackup."
 			echo "Backup is aborting..."
 			
@@ -279,6 +439,9 @@ function server_backup_safe() {
 		send_cmd "say Minecraft Tools has successfully backed up the server. "
 		
 	fi
+	
+	
+	
 }
 
 function server_backup_unsafe() {
@@ -383,7 +546,8 @@ function server_backup() {
 		server_backup_unsafe
 	fi
 
-	exit
+	return_to_menu
+	#exit
 }
 
 function show_config() {
@@ -417,7 +581,8 @@ function create_selection_menu() {
 									
 		selection_menu=${selection_menu_in^^}					
 					
-
+		#Create an empty line
+		echo ""
 						
 		if [[ $selection_menu == "0" ]]; 
 			then
@@ -511,6 +676,8 @@ function return_to_menu() {
 			#Since this routine is only run once, you don't need to re-init this sequence.
 			returnto_in="null"
 			returnto="null"
+
+			echo ""
 			
 			while [[ $returnto != "Y" ]]; do
 			
