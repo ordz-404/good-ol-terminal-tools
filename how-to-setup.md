@@ -1,15 +1,8 @@
-## Setup & Configuration Parameters
+## Setup Guide & Configuration Parameters
 
-Please open up the serverconf.sh for the initial variable configurations.
+GoTT will automatically initialise the setup process if no config file is found. 
 The only main four parameters you need to configure are specified below.
 
-`JVM_ARGS="-Xms1024M -Xmx1024M"`
-
-`JAR="insert_server_excutable_name.jar"`
-
-`JAR_ARGS="-nogui"`
-
-`WORLD_NAME="insert_world_name"`
 
 
 
